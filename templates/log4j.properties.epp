@@ -1,9 +1,14 @@
+<%-| 
+  String $log4j_rootlogger_loglevel,
+  String $log4j_maxfilesize,
+  String $log4j_maxbackupindex,
+|-%>
 ####################################################################
 #### NOTE: THIS FILE IS PUPPET CONTROLLED - ANY CHAGES WILL BE LOST
 ####################################################################
 # rootLogger log level may be programmatically overridden by -Dsolr.log.level
 solr.log=${solr.log.dir}
-log4j.rootLogger=<%= scope['::solr::log4j_rootlogger_loglevel'] %>, file, CONSOLE
+log4j.rootLogger=<%= $log4j_rootlogger_loglevel %>, file, CONSOLE
 
 # Console appender will be programmatically disabled when Solr is started with option -Dsolr.log.muteconsole
 log4j.appender.CONSOLE=org.apache.log4j.ConsoleAppender
@@ -12,8 +17,8 @@ log4j.appender.CONSOLE.layout.ConversionPattern=%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p
 
 #- size rotation with log cleanup.
 log4j.appender.file=org.apache.log4j.RollingFileAppender
-log4j.appender.file.MaxFileSize=<%= scope['::solr::log4j_maxfilesize'] %>
-log4j.appender.file.MaxBackupIndex=<%= scope['::solr::log4j_maxbackupindex'] %>
+log4j.appender.file.MaxFileSize=<%= $log4j_maxfilesize %>
+log4j.appender.file.MaxBackupIndex=<%= $log4j_maxbackupindex %>
 
 #- File to log to and log format
 log4j.appender.file.File=${solr.log}/solr.log

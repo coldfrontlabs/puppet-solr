@@ -61,7 +61,11 @@ class solr::config {
     ensure  => file,
     owner   => 'solr',
     group   => 'solr',
-    content => template('solr/log4j.properties.erb'),
+    content => epp('solr/log4j.properties.epp',{
+      log4j_rootlogger_loglevel => $solr::log4j_rootlogger_loglevel,
+      log4j_maxfilesize         => $solr::log4j_maxfilesize,
+      log4j_maxbackupindex      => $solr::log4j_maxbackupindex,
+    }),
     before  => Anchor['solr::config::end'],
   }
 
@@ -69,7 +73,12 @@ class solr::config {
   if $::solr::params::is_systemd {
     include '::systemd'
     ::systemd::unit_file { 'solr.service':
-      content => template('solr/solr.service.erb'),
+      content => epp('solr/solr.service.epp',{
+        solr_pid_dir => $solr::solr_pid_dir,
+        solr_port    => $solr::solr_port,
+        solr_bin     => $solr::solr_bin,
+        solr_env     => $solr::solr_env,
+      }),
       require => File[$::solr::solr_env],
       before  => Anchor['solr::config::end'],
     }
@@ -86,7 +95,11 @@ class solr::config {
     file { '/etc/init.d/solr':
       ensure  => file,
       mode    => '0755',
-      content => epp('solr/solr.sh.erb'),
+      content => epp('solr/solr.sh.epp',{
+        solr_bin  => $solr::solr_bin,
+        solr_user => $solr::solr_user,
+        solr_env  => $solr::solr_env,
+      }),
       require => File[$::solr::solr_env],
       before  => Anchor['solr::config::end'],
     }

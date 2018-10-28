@@ -1,3 +1,9 @@
+## 2018-10-29 Release 0.6.3
+  - Converted erb to epp for all templates.
+  - Removed erb files.
+  - Fixed issue with optional values in epps.
+  - Fixed issue with syntax error in template.
+
 ## 2018-10-01 Release 0.6.2
   - Updated metadata's GPL License to comply with [SPDX License](https://spdx.org/licenses/) 3.2
   - Changed source in metadata.

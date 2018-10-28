@@ -1,3 +1,8 @@
+<%-| 
+  String           $solr_bin,
+  String           $solr_user,
+  Optional[String] $solr_env = undef,
+|-%>
 #!/bin/sh
 ####################################################################
 #### NOTE: THIS FILE IS PUPPET CONTROLLED - ANY CHAGES WILL BE LOST
@@ -35,14 +40,14 @@
 #   update-rc.d solr defaults
 #   update-rc.d solr enable
 
-SOLR_BIN_DIR=<%= scope['solr::solr_bin'] -%>
+SOLR_BIN_DIR=<%= $solr_bin %>
 
 if [ ! -d "$SOLR_BIN_DIR" ]; then
   echo "$SOLR_BIN_DIR not found! Please check the SOLR_BIN_DIR setting in your $0 script."
   exit 1
 fi
 
-SOLR_ENV=<%= scope['solr::solr_env'] -%>
+SOLR_ENV=<%= $solr_env %>
 
 if [ ! -f "$SOLR_ENV" ]; then
   echo "$SOLR_ENV not found! Please check the SOLR_ENV setting in your $0 script."
@@ -51,7 +56,7 @@ fi
 
 # Specify the user to run Solr as; if not set, then Solr will run as root.
 # Running Solr as root is not recommended for production environments
-RUNAS=<%= scope['solr::solr_user'] -%>
+RUNAS=<%= $solr_user %>
 
 # verify the specified run as user exists
 runas_uid=`id -u $RUNAS`
