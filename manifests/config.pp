@@ -40,9 +40,6 @@ class solr::config {
       solr_logs                       => $solr::solr_logs,
       solr_host                       => $solr::solr_host,
       solr_port                       => $solr::solr_port,
-      solr_start_args                 => $solr::solr_start_args,
-      solr_stop_args                  => $solr::solr_stop_args,
-      solr_status_args                => $solr::solr_status_args,
       solr_environment                => $solr::solr_environment,
       ssl_key_store                   => $solr::ssl_key_store,
       ssl_key_store_password          => $solr::ssl_key_store_password,
@@ -77,10 +74,14 @@ class solr::config {
     include '::systemd'
     ::systemd::unit_file { 'solr.service':
       content => epp('solr/solr.service.epp',{
-        solr_pid_dir => $solr::solr_pid_dir,
-        solr_port    => $solr::solr_port,
-        solr_bin     => $solr::solr_bin,
-        solr_env     => $solr::solr_env,
+        solr_pid_dir     => $solr::solr_pid_dir,
+        solr_port        => $solr::solr_port,
+        solr_bin         => $solr::solr_bin,
+        solr_env         => $solr::solr_env,
+        solr_start_args  => $solr::solr_start_args,
+        solr_stop_args   => $solr::solr_stop_args,
+        solr_status_args => $solr::solr_status_args,
+
       }),
       require => File[$::solr::solr_env],
       before  => Anchor['solr::config::end'],
@@ -99,9 +100,13 @@ class solr::config {
       ensure  => file,
       mode    => '0755',
       content => epp('solr/solr.sh.epp',{
-        solr_bin  => $solr::solr_bin,
-        solr_user => $solr::solr_user,
-        solr_env  => $solr::solr_env,
+        solr_bin         => $solr::solr_bin,
+        solr_user        => $solr::solr_user,
+        solr_env         => $solr::solr_env,
+        solr_start_args  => $solr::solr_start_args,
+        solr_stop_args   => $solr::solr_stop_args,
+        solr_status_args => $solr::solr_status_args,
+
       }),
       require => File[$::solr::solr_env],
       before  => Anchor['solr::config::end'],
