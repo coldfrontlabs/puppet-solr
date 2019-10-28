@@ -27,6 +27,37 @@ class solr::config {
     require => Anchor['solr::config::begin'],
   }
 
+  # After solr v 7.4.0 SOLR now uses log4j2.xml
+  if versioncmp($solr::version, '7.4.0') >= 0 {
+    # setup log4j2 configuration file.
+    $logger_config_file = "log4j2.xml"
+    file { "${::solr::var_dir}/log4j2.xml":
+      ensure  => file,
+      owner   => 'solr',
+      group   => 'solr',
+      content => epp('solr/log4j2.xml.epp',{
+        log4j_rootlogger_loglevel => $solr::log4j_rootlogger_loglevel,
+        log4j_maxfilesize         => $solr::log4j_maxfilesize,
+        log4j_maxbackupindex      => $solr::log4j_maxbackupindex,
+      }),
+      before  => Anchor['solr::config::end'],
+    }
+  } else {
+    # setup log4j configuration file.
+    $logger_config_file = "log4j.properties"
+    file { "${::solr::var_dir}/log4j.properties":
+      ensure  => file,
+      owner   => 'solr',
+      group   => 'solr',
+      content => epp('solr/log4j.properties.epp',{
+        log4j_rootlogger_loglevel => $solr::log4j_rootlogger_loglevel,
+        log4j_maxfilesize         => $solr::log4j_maxfilesize,
+        log4j_maxbackupindex      => $solr::log4j_maxbackupindex,
+      }),
+      before  => Anchor['solr::config::end'],
+    }
+  }
+
   # setup default jetty configuration file.
   file { $::solr::solr_env:
     ensure  => file,
@@ -40,6 +71,7 @@ class solr::config {
       solr_logs                       => $solr::solr_logs,
       solr_host                       => $solr::solr_host,
       solr_port                       => $solr::solr_port,
+      logger_config_file              => $logger_config_file,
       solr_environment                => $solr::solr_environment,
       ssl_key_store                   => $solr::ssl_key_store,
       ssl_key_store_password          => $solr::ssl_key_store_password,
@@ -50,23 +82,10 @@ class solr::config {
       ssl_client_key_store            => $solr::ssl_client_key_store,
       ssl_client_key_store_password   => $solr::ssl_client_key_store_password,
       ssl_client_trust_store          => $solr::ssl_client_trust_store,
-      ssl_client_trust_store_password =>
+      ssl_client_trust_store_password => 
       solr::ssl_client_trust_store_password,
     }),
     require => File[$::solr::solr_logs],
-  }
-
-  # setup log4j configuration file.
-  file { "${::solr::var_dir}/log4j.properties":
-    ensure  => file,
-    owner   => 'solr',
-    group   => 'solr',
-    content => epp('solr/log4j.properties.epp',{
-      log4j_rootlogger_loglevel => $solr::log4j_rootlogger_loglevel,
-      log4j_maxfilesize         => $solr::log4j_maxfilesize,
-      log4j_maxbackupindex      => $solr::log4j_maxbackupindex,
-    }),
-    before  => Anchor['solr::config::end'],
   }
 
   # setup the service level entry
