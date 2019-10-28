@@ -119,7 +119,6 @@ SOLR_HOME="<%= $solr_home -%>"
 # however, you may want to customize the log settings and file appender location
 # so you can point the script to use a different log4j.properties file
 #LOG4J_PROPS=/var/solr/log4j.properties
-#LOG4J_PROPS="<%= $var_dir -%>/log4j.properties"
 LOG4J_PROPS="<%= $var_dir -%>/<%= $logger_config_file -%>"
 
 # Location where Solr should write logs to; should agree with the file appender
