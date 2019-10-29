@@ -1,3 +1,3 @@
 class{'solr':
-  version => '7.1.0',
+  version => '7.7.2',
 }

@@ -7,9 +7,11 @@
 ####################################################################
 #### NOTE: THIS FILE IS PUPPET CONTROLLED - ANY CHAGES WILL BE LOST
 ####################################################################
+
 [Unit]
 Description=Apache SOLR
 After=syslog.target network.target remote-fs.target nss-lookup.target
+
 [Service]
 PIDFile=<%= $solr_pid_dir %>/solr-<%= $solr_port %>.pid
 Environment=SOLR_INCLUDE=<%= $solr_env %>
@@ -20,5 +22,6 @@ ExecStatus=<%= $solr_bin %>/solr status -noprompt
 ExecReload=/bin/kill -s HUP $MAINPID
 User=solr
 PrivateTmp=true
+
 [Install]
 WantedBy=multi-user.target
