@@ -1,5 +1,12 @@
 # Solr Puppet Module Changelog
 
+## 2019-10-30 Release 0.7.1
+
+- Used PDK convert to comply with Puppetforge requirements.
+- Fixed a ruby linting warning for lib code.
+- Updated license in metadata.
+- Added Ubuntu 18.04 support.
+
 ## 2019-10-29 Release 0.7.0
 
 - Reformatted Changelog to comply with Markdown Linting.
