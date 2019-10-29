@@ -3,6 +3,8 @@
 ## 2019-10-29 Release 0.7.0
 
 - Reformatted Changelog to comply with Markdown Linting.
+- Updated Readme to comply with Markdown Linting.
+- Applied PR by Kris Anderson that fixes an issue with logging on Solr versions above 7.4.0.
 
 ## 2018-10-29 Release 0.6.3
 
