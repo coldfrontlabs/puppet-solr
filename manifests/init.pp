@@ -191,6 +191,7 @@ class solr (
   # The directory that contains cores.
   $solr_core_home = $solr_home
   $solr_pid_dir   = $var_dir
+  #$solr_pid_dir   = '/var/run'
   $solr_bin       = "${install_dir}/solr/bin"
   $solr_server    = "${install_dir}/solr/server"
   # The directory to the basic configuration example core.

@@ -10,3 +10,4 @@ vagrant/puppet/modules/*
 vagrant/puppet/logs
 vagrant/results.txt
 .yardoc/
+vagrant/ubuntu-bionic-18.04-cloudimg-console.log
