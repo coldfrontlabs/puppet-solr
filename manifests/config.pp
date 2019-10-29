@@ -30,7 +30,7 @@ class solr::config {
   # After solr v 7.4.0 SOLR now uses log4j2.xml
   if versioncmp($solr::version, '7.4.0') >= 0 {
     # setup log4j2 configuration file.
-    $logger_config_file = "log4j2.xml"
+    $logger_config_file = 'log4j2.xml'
     file { "${::solr::var_dir}/log4j2.xml":
       ensure  => file,
       owner   => 'solr',
@@ -44,7 +44,7 @@ class solr::config {
     }
   } else {
     # setup log4j configuration file.
-    $logger_config_file = "log4j.properties"
+    $logger_config_file = 'log4j.properties'
     file { "${::solr::var_dir}/log4j.properties":
       ensure  => file,
       owner   => 'solr',
@@ -82,8 +82,7 @@ class solr::config {
       ssl_client_key_store            => $solr::ssl_client_key_store,
       ssl_client_key_store_password   => $solr::ssl_client_key_store_password,
       ssl_client_trust_store          => $solr::ssl_client_trust_store,
-      ssl_client_trust_store_password => 
-      solr::ssl_client_trust_store_password,
+      ssl_client_trust_store_password => $solr::ssl_client_trust_store_password,
     }),
     require => File[$::solr::solr_logs],
   }
