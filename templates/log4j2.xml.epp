@@ -3,11 +3,12 @@
   String $log4j_maxfilesize,
   String $log4j_maxbackupindex,
 |-%>
-####################################################################
-#### NOTE: THIS FILE IS PUPPET CONTROLLED - ANY CHAGES WILL BE LOST
-####################################################################
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ####################################################################
+  #### NOTE: THIS FILE IS PUPPET CONTROLLED - ANY CHAGES WILL BE LOST
+  ####################################################################
+
   Licensed to the Apache Software Foundation (ASF) under one or more
   contributor license agreements.  See the NOTICE file distributed with
   this work for additional information regarding copyright ownership.
