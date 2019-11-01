@@ -4,8 +4,13 @@ if [ -f puppet/logs/puppet.log ] ; then
     rm puppet/logs/puppet.log
 fi
 
-mkdir -p puppet/modules
-PUPPETFILE=puppet/Puppetfile PUPPETFILE_DIR=puppet/modules r10k --verbose 3 puppetfile install
+if [ ! -d puppet/modules ] ; then
+  mkdir -p puppet/modules
+fi
+
+CACHEDIR="puppet/g10k_cache"
+PUPPETFILE="puppet/Puppetfile"
+scripts/g10k -force -cachedir=$CACHEDIR -puppetfile -puppetfilelocation $PUPPETFILE -moduledir puppet/modules
 
 vagrant up --provision
 

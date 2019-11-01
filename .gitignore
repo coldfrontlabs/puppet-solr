@@ -29,3 +29,4 @@ vagrant/ubuntu-bionic-18.04-cloudimg-console.log
 vagrant/.vagrant/
 vagrant/puppet/modules/
 vagrant/results.txt
+vagrant/puppet/g10k_cache/

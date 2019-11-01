@@ -1,14 +1,15 @@
 #!/bin/bash
 
 TESTS=(
-"ubuntu12.04"
 "ubuntu14.04"
 "ubuntu16.04"
+"ubuntu18.04"
+"centos7.7"
 )
 OUT="results.txt"
 
-if [ -e $OUT ] ; then
-    rm $OUT
+if [ -f $OUT ] ; then
+  rm $OUT
 fi
 
 function cleanup {
