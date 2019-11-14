@@ -194,10 +194,15 @@ class solr (
   #$solr_pid_dir   = '/var/run'
   $solr_bin       = "${install_dir}/solr/bin"
   $solr_server    = "${install_dir}/solr/server"
-  # The directory to the basic configuration example core.
-  $basic_dir      = "${solr_server}/solr/configsets/basic_configs/conf"
   # The directory to install shared libraries for use by solr.
   $solr_lib_dir   = "${solr_server}/solr-webapp/webapp/WEB-INF/lib"
+
+  # The directory to the basic configuration example core.
+  if versioncmp($solr::version, '7.0.0') >= 0 {
+    $basic_dir      = "${solr_server}/solr/configsets/_default/conf"
+  }else{
+    $basic_dir      = "${solr_server}/solr/configsets/basic_configs/conf"
+  }
 
   # If no value for `schema_name` is provided, use a sensible default for this
   # version of Solr.
@@ -216,25 +221,16 @@ class solr (
     }
   }
 
-  anchor{'solr::begin': }
+  contain solr::install
+  contain solr::config
+  contain solr::service
 
-  class{'solr::install':
-    require => Anchor['solr::begin'],
-  }
+  Class['solr::install'] -> Class['solr::config']
+  Class['solr::config'] ~> Class['solr::service']
 
-  class{'solr::config':
-    require => Class['solr::install'],
-  }
-
-  class{'solr::service':
-    subscribe => Class['solr::config'],
-  }
 
   if is_hash($cores) {
     create_resources(::solr::core, $cores)
   }
 
-  anchor{'solr::end':
-    require => Class['solr::service'],
-  }
 }

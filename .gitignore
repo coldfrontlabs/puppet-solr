@@ -30,3 +30,4 @@ vagrant/.vagrant/
 vagrant/puppet/modules/
 vagrant/results.txt
 vagrant/puppet/g10k_cache/
+vagrant/*.log

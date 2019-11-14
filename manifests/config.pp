@@ -2,12 +2,9 @@
 #
 class solr::config {
 
-  anchor{'solr::config::begin':}
-
   if $::osfamily == 'debian' {
     file { '/usr/java':
       ensure  => directory,
-      require => Anchor['solr::config::begin'],
     }
 
     # setup a sym link for java home (TODO: FIX to not be hard coded)
@@ -21,10 +18,9 @@ class solr::config {
 
   # create the directories
   file { $::solr::solr_logs:
-    ensure  => directory,
-    owner   => $solr::solr_user,
-    group   => $solr::solr_user,
-    require => Anchor['solr::config::begin'],
+    ensure => directory,
+    owner  => $solr::solr_user,
+    group  => $solr::solr_user,
   }
 
   # After solr v 7.4.0 SOLR now uses log4j2.xml
@@ -40,7 +36,6 @@ class solr::config {
         log4j_maxfilesize         => $solr::log4j_maxfilesize,
         log4j_maxbackupindex      => $solr::log4j_maxbackupindex,
       }),
-      before  => Anchor['solr::config::end'],
     }
   } else {
     # setup log4j configuration file.
@@ -54,7 +49,6 @@ class solr::config {
         log4j_maxfilesize         => $solr::log4j_maxfilesize,
         log4j_maxbackupindex      => $solr::log4j_maxbackupindex,
       }),
-      before  => Anchor['solr::config::end'],
     }
   }
 
@@ -98,17 +92,12 @@ class solr::config {
         solr_env     => $solr::solr_env,
       }),
       require => File[$::solr::solr_env],
-      before  => Anchor['solr::config::end'],
     }
 
     # prevents confusion
     file { '/etc/init.d/solr':
       ensure => absent,
     }
-
-  # This could potentially cause issues
-  Exec['systemctl-daemon-reload'] -> Anchor['solr::config::end']
-
   } else {
     file { '/etc/init.d/solr':
       ensure  => file,
@@ -119,10 +108,6 @@ class solr::config {
         solr_env  => $solr::solr_env,
       }),
       require => File[$::solr::solr_env],
-      before  => Anchor['solr::config::end'],
     }
-  }
-  anchor{'solr::config::end':
-    require => File[$::solr::solr_logs],
   }
 }

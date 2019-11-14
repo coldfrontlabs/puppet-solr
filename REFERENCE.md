@@ -396,13 +396,13 @@ Default value: `true`
 
 ##### `currency_src_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
 The currency file for the core.  It can either be a local file
 (managed outside of this module) or a remote file served through a puppet
 file server (puppet:///).
 
-Default value: "${::solr::basic_dir}/currency.xml"
+Default value: `undef`
 
 ##### `other_files`
 
@@ -464,11 +464,13 @@ Default value: "${::solr::basic_dir}/synonyms.txt"
 
 ##### `elevate_src_file`
 
-Data type: `String`
+Data type: `Optional[String]`
 
+The elevate file for the core.  It can either be a local file
+(managed outside of this module) or a remote file served through a puppet
+file server (puppet:///).
 
-
-Default value: "${::solr::basic_dir}/elevate.xml"
+Default value: `undef`
 
 ### solr::shared_lib
 

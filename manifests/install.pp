@@ -2,8 +2,6 @@
 #
 class solr::install {
 
-  anchor{'solr::install::begin':}
-
   # == variables == #
   # The destination full path to the solr tarball.
   $tarball = "${solr::solr_downloads}/solr-${solr::version}.tgz"
@@ -18,21 +16,18 @@ class solr::install {
     system     => true,
     managehome => true,
     shell      => '/bin/bash',
-    require    => [Package[$solr::required_packages],
-                  Anchor['solr::install::begin']],
+    require    => Package[$solr::required_packages],
   }
 
   # directory to store downloaded solr versions and install to
   file { $solr::solr_downloads:
-    ensure  => directory,
-    require => Anchor['solr::install::begin'],
+    ensure => directory,
   }
 
   if $solr::install_dir_mg{
     file { $solr::install_dir:
-      ensure  => directory,
-      require => Anchor['solr::install::begin'],
-      before  => Exec['install_solr_service.sh'],
+      ensure => directory,
+      before => Exec['install_solr_service.sh'],
     }
   }
 
@@ -61,9 +56,5 @@ class solr::install {
     refreshonly => true,
     subscribe   => Exec['extract install script'],
     require     =>  User[$solr::solr_user]
-  }
-
-  anchor{'solr::install::end':
-    require => Exec['install_solr_service.sh'],
   }
 }

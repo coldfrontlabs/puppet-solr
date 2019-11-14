@@ -1,10 +1,10 @@
 #!/bin/bash
 
 TESTS=(
-"ubuntu14.04"
 "ubuntu16.04"
 "ubuntu18.04"
 "centos7.7"
+"centos6"
 )
 OUT="results.txt"
 

@@ -1,1 +1,1 @@
-require './config/centos7.7'
+require './config/centos6'

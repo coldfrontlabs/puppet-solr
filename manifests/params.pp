@@ -21,8 +21,7 @@ class solr::params (
       if $::operatingsystem == 'Ubuntu' and
       versioncmp($::operatingsystemrelease, '15.04') >= 0 {
         $is_systemd = true
-        $required_packages = ['unzip','lsof','software-properties-common',
-        'openjdk-8-jre']
+        $required_packages = ['unzip','lsof','software-properties-common', 'openjdk-8-jre']
       } else {
         $is_systemd = false
         $required_packages = ['unzip','lsof','openjdk-8-jre']

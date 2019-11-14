@@ -1,5 +1,16 @@
 # Solr Puppet Module Changelog
 
+## 2019-11-15 Release 0.8.0
+
+- Changed wget dependency.
+- Increased stdlib's minimum version to 5.0.0.
+- Updated vagrant directory for testing.
+- Removed anchor pattern
+- Automatically restarts the service if a new core configuration is added.
+- Removed defaults for currency_src_file and elevate_src_file as there are no defaults in Solr 7+ default configuration.
+- Fixed an issue with the configuration directory name for cores for solr 7+.
+- Removed Ubuntu 12.0 and 14.04 support.
+
 ## 2019-10-30 Release 0.7.1
 
 - Used PDK convert to comply with Puppetforge requirements.
