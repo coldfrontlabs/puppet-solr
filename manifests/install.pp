@@ -32,12 +32,9 @@ class solr::install {
   }
 
   # download solr
-  wget::fetch{'solr':
-    source      => "${solr::url}/${solr::version}/solr-${solr::version}.tgz",
-    destination => $tarball,
-    timeout     => $solr::timeout,
-    verbose     => false,
-    require     => File[$solr::solr_downloads],
+  archive{$tarball:
+    source  => "${solr::url}/${solr::version}/solr-${solr::version}.tgz",
+    require => File[$solr::solr_downloads],
   }
 
   # extract install script
@@ -45,7 +42,7 @@ class solr::install {
     command     => "/bin/tar -C ${solr::solr_downloads} -xf ${tarball}\
   solr-${solr::version}/bin/install_solr_service.sh --strip-components=2",
     refreshonly => true,
-    subscribe   => Wget::Fetch['solr'],
+    subscribe   => Archive[$tarball],
   }
 
   # run install script

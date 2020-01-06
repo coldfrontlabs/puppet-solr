@@ -16,9 +16,6 @@
 # @param [String] url
 #   The url of the source repository for apache solr.
 #
-# @param [Integer] timeout
-#   The timeout used for downloading the solr package.
-#
 # @param [Boolean] manage_user
 #   Whether to manage the solr user or not
 #
@@ -147,7 +144,6 @@ class solr (
   String           $version                          = '6.2.0',
   String           $url                              =
   'http://archive.apache.org/dist/lucene/solr/',
-  Integer          $timeout                          = 120,
   Boolean          $manage_user                      = true,
   String           $solr_user                        = 'solr',
   String           $solr_host                        = '127.0.0.1',
