@@ -1,6 +1,6 @@
 source ENV['GEM_SOURCE'] || "https://rubygems.org"
 
- puppetversion = [ '>= 5.0', '< 7.0' ]
+ puppetversion = [ '>= 5.0', '< 6.0' ]
  
  gem 'json_pure'
  gem 'rake'
