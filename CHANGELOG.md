@@ -5,6 +5,9 @@
 - Fixed a bug in a template where a variable that could have an undef value was being used in a function that required a non undef value.
 - wget pupet module has been depricated, so wget puppet module has been replaced by [Archive](https://forge.puppet.com/puppet/archive).
 - Removed timeout parameter as its no longer applicable due to archive replacing wget.
+- Updated systemd puppet module version dependency.
+- Updated apt puppet module version dependency.
+- Fixed an issue with ruby styling.
 
 ## 2019-11-15 Release 0.8.0
 

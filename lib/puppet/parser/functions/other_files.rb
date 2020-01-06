@@ -4,7 +4,7 @@
 # newfunction(:other_files, :type => :rvalue, :doc => "Returns file resources to be deployed to solr cores.") do |arguments|
 
 module Puppet::Parser::Functions
-  newfunction(:other_files, :type => :rvalue, :doc => "Returns file resources to be deployed to solr cores.") do |arguments|
+  newfunction(:other_files, type: :rvalue, doc: 'Returns file resources to be deployed to solr cores.') do |arguments|
     raise(Puppet::ParseError, "other_files(): Wrong number of arguments given (#{arguments.size} for 2)") if arguments.size < 2
 
     files = arguments[0]
