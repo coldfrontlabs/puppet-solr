@@ -25,9 +25,8 @@
 .project
 .envrc
 /inventory.yaml
-vagrant/ubuntu-bionic-18.04-cloudimg-console.log
 vagrant/.vagrant/
-vagrant/puppet/modules/
 vagrant/results.txt
-vagrant/puppet/g10k_cache/
-vagrant/*.log
+vagrant/ubuntu-bionic-18.04-cloudimg-console.log
+vagrant/ubuntu-xenial-16.04-cloudimg-console.log
+
