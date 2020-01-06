@@ -64,14 +64,6 @@ The url of the source repository for apache solr.
 
 Default value: 'http://archive.apache.org/dist/lucene/solr/'
 
-##### `timeout`
-
-Data type: `Integer`
-
-The timeout used for downloading the solr package.
-
-Default value: 120
-
 ##### `manage_user`
 
 Data type: `Boolean`
