@@ -1,5 +1,9 @@
 # Solr Puppet Module Changelog
 
+## 2020-01-06 Release 0.8.1
+
+- Fixed a bug in a template where a variable that could have an undef value was being used in a function that required a non undef value.
+
 ## 2019-11-15 Release 0.8.0
 
 - Changed wget dependency.

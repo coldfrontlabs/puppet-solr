@@ -172,7 +172,7 @@ SOLR_SSL_CLIENT_TRUST_STORE_PASSWORD=<%= $ssl_client_key_store_password %>
 #SOLR_AUTHENTICATION_OPTS=
 
 # Note, in Puppet 6, can use built-in size function
-<% if size($solr_environment) != 0 { -%>
+<% if $solr_environment and size($solr_environment) != 0 { -%>
 # solr::environment
 <%= $solr_environment.join("\n") -%>
 <% } -%>
