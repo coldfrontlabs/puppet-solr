@@ -16,9 +16,6 @@
 # @param [String] url
 #   The url of the source repository for apache solr.
 #
-# @param [Integer] timeout
-#   The timeout used for downloading the solr package.
-#
 # @param [Boolean] manage_user
 #   Whether to manage the solr user or not
 #
@@ -147,22 +144,21 @@ class solr (
   String            $version                          = '6.2.0',
   String            $url                              =
   'http://archive.apache.org/dist/lucene/solr/',
-  Integer           $timeout                          = 120,
-  Boolean           $manage_user                      = true,
-  String            $solr_user                        = 'solr',
-  String            $solr_host                        = '127.0.0.1',
-  String            $solr_port                        = '8983',
-  String            $solr_heap                        = '512m',
-  String            $solr_downloads                   = '/opt/solr_downloads',
-  String            $install_dir                      = '/opt',
-  Boolean           $install_dir_mg                   = false,
-  String            $var_dir                          = '/var/solr',
-  String            $solr_logs                        = '/var/log/solr',
-  String            $solr_home                        = '/opt/solr/server/solr',
-  String            $java_home                        = $solr::params::java_home,
-  Optional[Array]   $solr_environment                 = undef,
-  Hash              $cores                            = {},
-  Array[String]     $required_packages                =
+  Boolean          $manage_user                      = true,
+  String           $solr_user                        = 'solr',
+  String           $solr_host                        = '127.0.0.1',
+  String           $solr_port                        = '8983',
+  String           $solr_heap                        = '512m',
+  String           $solr_downloads                   = '/opt/solr_downloads',
+  String           $install_dir                      = '/opt',
+  Boolean          $install_dir_mg                   = false,
+  String           $var_dir                          = '/var/solr',
+  String           $solr_logs                        = '/var/log/solr',
+  String           $solr_home                        = '/opt/solr/server/solr',
+  String           $java_home                        = $solr::params::java_home,
+  Optional[Array]  $solr_environment                 = undef,
+  Hash             $cores                            = {},
+  Array[String]    $required_packages                =
   $solr::params::required_packages,
   Optional[Array]   $zk_hosts                         = undef,
   String            $log4j_maxfilesize                = '4MB',
@@ -194,12 +190,18 @@ class solr (
   # The directory that contains cores.
   $solr_core_home = $solr_home
   $solr_pid_dir   = $var_dir
+  #$solr_pid_dir   = '/var/run'
   $solr_bin       = "${install_dir}/solr/bin"
   $solr_server    = "${install_dir}/solr/server"
-  # The directory to the basic configuration example core.
-  $basic_dir      = "${solr_server}/solr/configsets/basic_configs/conf"
   # The directory to install shared libraries for use by solr.
   $solr_lib_dir   = "${solr_server}/solr-webapp/webapp/WEB-INF/lib"
+
+  # The directory to the basic configuration example core.
+  if versioncmp($solr::version, '7.0.0') >= 0 {
+    $basic_dir      = "${solr_server}/solr/configsets/_default/conf"
+  }else{
+    $basic_dir      = "${solr_server}/solr/configsets/basic_configs/conf"
+  }
 
   # If no value for `schema_name` is provided, use a sensible default for this
   # version of Solr.
@@ -218,25 +220,16 @@ class solr (
     }
   }
 
-  anchor{'solr::begin': }
+  contain solr::install
+  contain solr::config
+  contain solr::service
 
-  class{'solr::install':
-    require => Anchor['solr::begin'],
-  }
+  Class['solr::install'] -> Class['solr::config']
+  Class['solr::config'] ~> Class['solr::service']
 
-  class{'solr::config':
-    require => Class['solr::install'],
-  }
-
-  class{'solr::service':
-    subscribe => Class['solr::config'],
-  }
 
   if is_hash($cores) {
     create_resources(::solr::core, $cores)
   }
 
-  anchor{'solr::end':
-    require => Class['solr::service'],
-  }
 }

@@ -26,8 +26,6 @@ define solr::shared_lib (
   Optional[String] $web_password = undef,
 ){
 
-  anchor{"solr::shared_lib::${title}::begin":}
-
   # variables
   if $filename {
     $lib_name       = $filename
@@ -36,17 +34,9 @@ define solr::shared_lib (
     $lib_name       = $lib_name_array[-1]
   }
 
-  wget::fetch{"${title}_download_shared_lib":
-    source      => $url,
-    destination => "${path}/${lib_name}",
-    user        => $web_user,
-    password    => $web_password,
-    timeout     => 0,
-    verbose     => false,
-    require     => Anchor["solr::shared_lib::${title}::begin"],
-  }
-
-  anchor{"solr::shared_lib::${title}::end":
-    require => Wget::Fetch["${title}_download_shared_lib"],
+  archive{"${path}/${lib_name}":
+    source   => $url,
+    user     => $web_user,
+    password => $web_password,
   }
 }

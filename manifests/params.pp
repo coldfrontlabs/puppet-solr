@@ -6,7 +6,7 @@ class solr::params (
   # OS Specific configuration
   case $::osfamily {
     'RedHat': {
-      $required_packages  = ['java-1.8.0-openjdk','unzip','lsof']
+      $required_packages  = ['java-1.8.0-openjdk','unzip','lsof','wget']
       $java_home = '/usr/lib/jvm/jre-1.8.0'
       $solr_env = '/etc/sysconfig/solr'
       if versioncmp($::operatingsystemrelease, '7.0') >= 0 {
@@ -21,11 +21,10 @@ class solr::params (
       if $::operatingsystem == 'Ubuntu' and
       versioncmp($::operatingsystemrelease, '15.04') >= 0 {
         $is_systemd = true
-        $required_packages = ['unzip','lsof','software-properties-common',
-        'openjdk-8-jre']
+        $required_packages = ['unzip','lsof','software-properties-common', 'openjdk-8-jre','wget']
       } else {
         $is_systemd = false
-        $required_packages = ['unzip','lsof','openjdk-8-jre']
+        $required_packages = ['unzip','lsof','openjdk-8-jre','wget']
       }
     }
     default: {

@@ -1,19 +1,36 @@
 {
-  "name":         "landcareresearch-solr",
-  "version":      "0.2.1",
-  "author":       "Landcare Research",
-  "summary":      "Configures and Installs Apache Solr",
-  "license":      "GPL-3.0-or-later",
-  "source":       "https://bitbucket.org/landcareresearch/puppet-solr",
+  "name": "landcareresearch-solr",
+  "version": "0.2.1",
+  "author": "Landcare Research",
+  "summary": "Configures and Installs Apache Solr",
+  "license": "GPL-3.0+",
+  "source": "https://bitbucket.org/landcareresearch/puppet-solr",
   "project_page": "https://bitbucket.org/landcareresearch/puppet-solr",
-  "issues_url":   "https://bitbucket.org/landcareresearch/puppet-solr/issues",
+  "issues_url": "https://bitbucket.org/landcareresearch/puppet-solr/issues",
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 5.0.0 < 7.0.0"
+    },
+    {
+      "name": "puppet/archive",
+      "version_requirement": ">= 4.4.0 < 5.0.0"
+    },
+    {
+      "name": "camptocamp/systemd",
+      "version_requirement": ">= 2.0.0 < 3.0.0"
+    },
+    {
+      "name": "puppetlabs/apt",
+      "version_requirement": ">= 7.0.0 < 8.0.0"
+    }
+  ],
   "operatingsystem_support": [
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "12.04",
-        "14.04",
-	"16.04"
+        "16.04",
+        "18.04"
       ]
     },
     {
@@ -24,10 +41,13 @@
       ]
     }
   ],
-  "dependencies": [
-    {"name":"puppetlabs/stdlib", "version_requirement":">= 4.5.0"},
-    {"name":"maestrodev/wget", "version_requirement":">= 1.7.0"},
-    {"name":"camptocamp/systemd", "version_requirement":">= 0.4.0"},
-    {"name":"puppetlabs/apt", "version_requirement":">= 2.0.0"}
-  ]
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.10.0 < 7.0.0"
+    }
+  ],
+  "pdk-version": "1.15.0",
+  "template-url": "pdk-default#1.15.0",
+  "template-ref": "tags/1.15.0-0-g0bc522e"
 }

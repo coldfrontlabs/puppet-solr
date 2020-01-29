@@ -1,21 +1,23 @@
 #!/bin/bash
 
-DISTRIB_CODENAME=$(lsb_release --codename --short)
-DEB="puppetlabs-release-${DISTRIB_CODENAME}.deb"
-DEB_PROVIDES="/etc/apt/sources.list.d/puppetlabs.list" # Assume that this file's existence means we have the Puppet Labs repo added
+if [ ! -e /home/vagrant/.provision.txt ] ; then
 
-if [ ! -e $DEB_PROVIDES ]
-then
-    apt-get install --yes lsb-release
-    # Print statement useful for debugging, but automated runs of this will interpret any output as an error
-    # print "Could not find $DEB_PROVIDES - fetching and installing $DEB"
-    wget -q http://apt.puppetlabs.com/$DEB
-    dpkg -i $DEB
+  DISTRIB_CODENAME=$(lsb_release --codename --short)
+  DEB="puppet5-release-${DISTRIB_CODENAME}.deb"
 
-    apt-get update
-    apt-get install byobu
-    apt-get install vim
-    apt-get install --yes puppet
-    gem install hiera-eyaml
-    echo '_byobu_sourced=1 . /usr/bin/byobu-launch' >> /home/vagrant/.profile
+  wget "https://apt.puppetlabs.com/${DEB}"
+  dpkg -i $DEB
+  apt-get update
+  apt-get install --yes puppet-agent
+  apt-get install --yes lsb-release
+  apt-get install --yes vim
+  apt-get install --yes byobu
+  apt-get install --yes ruby
+  apt-get install --yes software-properties-common
+  gem install hiera-eyaml
+  /opt/puppetlabs/puppet/bin/gem install hiera-eyaml
+  apt-get update
+  apt-get install --yes puppet-agent
+  touch /home/vagrant/.provision.txt
+  echo '_byobu_sourced=1 . /usr/bin/byobu-launch' >> /home/vagrant/.profile
 fi
