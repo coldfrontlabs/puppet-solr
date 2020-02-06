@@ -23,10 +23,10 @@ class solr::config {
     group  => $solr::solr_user,
   }
 
-  file { $solr::solr_home: {
+  file { $::solr::solr_home:
     ensure => directory,
     owner  => $solr::solr_user,
-    group  => $solr::solr_user
+    group  => $solr::solr_user,
   }
 
   # After solr v 7.4.0 SOLR now uses log4j2.xml
