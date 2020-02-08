@@ -62,6 +62,9 @@
 #   Bash style environment variables passed at the end of the solr
 #   server environment.
 #
+# @param [Optional[String]] solr_url_scheme
+#   Set the URL scheme to use (e.g. https)
+#
 # @param [Hash] cores
 #   An array of hashes that define a core which will be created with the
 #   create_resources function.
