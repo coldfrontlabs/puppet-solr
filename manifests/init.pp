@@ -160,6 +160,7 @@ class solr (
   String           $solr_home                        = '/opt/solr/server/solr',
   String           $java_home                        = $solr::params::java_home,
   Optional[Array]  $solr_environment                 = undef,
+  Optional[String] $solr_url_scheme                  = undef,
   Hash             $cores                            = {},
   Array[String]    $required_packages                =
   $solr::params::required_packages,
