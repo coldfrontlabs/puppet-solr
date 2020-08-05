@@ -2,6 +2,9 @@
   String           $solr_bin,
   String           $solr_user,
   Optional[String] $solr_env = undef,
+  Optional[Array]  $solr_start_args = [],
+  Optional[Array]  $solr_status_args = [],
+  Optional[Array]  $solr_stop_args = [],
 |-%>
 #!/bin/sh
 ####################################################################
@@ -67,7 +70,7 @@ fi
 
 start () {
     echo -n "Starting solr..."
-    su -c "SOLR_INCLUDE=$SOLR_ENV $SOLR_BIN_DIR/solr start" - $RUNAS
+    su -c "SOLR_INCLUDE=$SOLR_ENV $SOLR_BIN_DIR/solr start <%= $solr_start_args.join(' ') %>" - $RUNAS
 
     RETVAL=$?
     if [ $RETVAL = 0 ]
@@ -82,7 +85,7 @@ start () {
 stop () {
     echo -n "Stopping solr..."
 
-    su -c "SOLR_INCLUDE=$SOLR_ENV $SOLR_BIN_DIR/solr stop" - $RUNAS
+    su -c "SOLR_INCLUDE=$SOLR_ENV $SOLR_BIN_DIR/solr stop <%= $solr_stop_args.join(' ') %>" - $RUNAS
     RETVAL=$?
 
     if [ $RETVAL = 0 ]
@@ -97,7 +100,7 @@ stop () {
 restart () {
 
     echo -n "Restart solr..."
-    su -c "SOLR_INCLUDE=$SOLR_ENV $SOLR_BIN_DIR/solr restart" - $RUNAS
+    su -c "SOLR_INCLUDE=$SOLR_ENV $SOLR_BIN_DIR/solr restart <%= $solr_start_args.join(' ') %>" - $RUNAS
     RETVAL=$?
 
     if [ $RETVAL = 0 ]

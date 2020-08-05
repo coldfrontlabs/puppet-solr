@@ -62,6 +62,9 @@
 #   Bash style environment variables passed at the end of the solr
 #   server environment.
 #
+# @param [Optional[String]] solr_url_scheme
+#   Set the URL scheme to use (e.g. https)
+#
 # @param [Hash] cores
 #   An array of hashes that define a core which will be created with the
 #   create_resources function.
@@ -141,8 +144,8 @@
 # GPL-3.0+
 #
 class solr (
-  String           $version                          = '6.2.0',
-  String           $url                              =
+  String            $version                          = '6.2.0',
+  String            $url                              =
   'http://archive.apache.org/dist/lucene/solr/',
   Boolean          $manage_user                      = true,
   String           $solr_user                        = 'solr',
@@ -157,23 +160,27 @@ class solr (
   String           $solr_home                        = '/opt/solr/server/solr',
   String           $java_home                        = $solr::params::java_home,
   Optional[Array]  $solr_environment                 = undef,
+  Optional[String] $solr_url_scheme                  = undef,
   Hash             $cores                            = {},
   Array[String]    $required_packages                =
   $solr::params::required_packages,
-  Optional[Array]  $zk_hosts                         = undef,
-  String           $log4j_maxfilesize                = '4MB',
-  String           $log4j_maxbackupindex             = '9',
+  Optional[Array]   $zk_hosts                         = undef,
+  String            $log4j_maxfilesize                = '4MB',
+  String            $log4j_maxbackupindex             = '9',
   Variant[
     Enum['ALL', 'DEBUG', 'ERROR', 'FATAL', 'INFO', 'OFF', 'TRACE',
       'TRACE_INT', 'WARN'],
-    String]        $log4j_rootlogger_loglevel        = 'INFO',
-  Optional[String] $schema_name                      = undef,
+    String]         $log4j_rootlogger_loglevel       = 'INFO',
+  Optional[Array]   $solr_start_args                 = [],
+  Optional[Array]   $solr_status_args                = [],
+  Optional[Array]   $solr_stop_args                  = [],
+  Optional[String]  $schema_name                     = undef,
   Optional[String]  $ssl_key_store                   = undef,
   Optional[String]  $ssl_key_store_password          = undef,
   Optional[String]  $ssl_key_store_type              = 'JKS',
   Optional[String]  $ssl_trust_store                 = undef,
   Optional[String]  $ssl_trust_store_password        = undef,
-  Optional[String]  $ssl_trust_store_type             = 'JKS',
+  Optional[String]  $ssl_trust_store_type            = 'JKS',
   Optional[Boolean] $ssl_need_client_auth            = undef,
   Optional[Boolean] $ssl_want_client_auth            = undef,
   Optional[String]  $ssl_client_key_store            = undef,
