@@ -43,6 +43,10 @@
 #   Sets if this module should manage the install directory.
 #   True if this module should manage and false otherwise.
 #
+# @param [Boolean] manage_java
+#   Sets if this module should manage the install of Java.
+#   True if this module should manage and false otherwise.
+#
 # @param [String] solr_home
 #   The home directory for solr.
 #
@@ -71,6 +75,9 @@
 #   See type solr::core for details.
 #
 # @param [Array[String]] required_packages
+#   Specified in params and is platform dependent.
+#
+# @param [Array[String]] java_packages
 #   Specified in params and is platform dependent.
 #
 # @param [Optional[Array]] zk_hosts
@@ -155,6 +162,7 @@ class solr (
   String           $solr_downloads                   = '/opt/solr_downloads',
   String           $install_dir                      = '/opt',
   Boolean          $install_dir_mg                   = false,
+  Boolean          $manage_java                      = true,
   String           $var_dir                          = '/var/solr',
   String           $solr_logs                        = '/var/log/solr',
   String           $solr_home                        = '/opt/solr/server/solr',
@@ -164,6 +172,8 @@ class solr (
   Hash             $cores                            = {},
   Array[String]    $required_packages                =
   $solr::params::required_packages,
+  Array[String]    $java_packages                =
+  $solr::params::java_packages,
   Optional[Array]   $zk_hosts                         = undef,
   String            $log4j_maxfilesize                = '4MB',
   String            $log4j_maxbackupindex             = '9',
