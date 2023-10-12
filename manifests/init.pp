@@ -153,7 +153,7 @@
 class solr (
   String            $version                          = '6.2.0',
   String            $url                              =
-  'https://www.apache.org/dyn/closer.lua/solr/solr/',
+  'https://dlcdn.apache.org/solr/solr/',
   Boolean          $manage_user                      = true,
   String           $solr_user                        = 'solr',
   String           $solr_host                        = '127.0.0.1',
