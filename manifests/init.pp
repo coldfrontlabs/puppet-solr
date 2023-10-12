@@ -242,8 +242,8 @@ class solr (
   Class['solr::config'] ~> Class['solr::service']
 
 
-  if is_hash($cores) {
-    create_resources(::solr::core, $cores)
+  if $cores =~ Hash {
+    ensure_resources(::solr::core, $cores)
   }
 
 }
