@@ -33,7 +33,7 @@ class solr::install {
 
   # download solr
   archive{$tarball:
-    source  => "${solr::url}/${solr::version}/solr-${solr::version}.tgz",
+    source  => "${solr::url}/${solr::version}/solr-${solr::version}.tgz?action=download",
     require => File[$solr::solr_downloads],
   }
 
