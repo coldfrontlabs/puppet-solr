@@ -3,6 +3,9 @@
   String $solr_port,
   String $solr_bin,
   String $solr_env,
+  Optional[Array] $solr_start_args = [],
+  Optional[Array] $solr_status_args = [],
+  Optional[Array] $solr_stop_args = [],
 |-%>
 ####################################################################
 #### NOTE: THIS FILE IS PUPPET CONTROLLED - ANY CHAGES WILL BE LOST
@@ -15,10 +18,8 @@ After=syslog.target network.target remote-fs.target nss-lookup.target
 [Service]
 PIDFile=<%= $solr_pid_dir %>/solr-<%= $solr_port %>.pid
 Environment=SOLR_INCLUDE=<%= $solr_env %>
-ExecStart=<%= $solr_bin %>/solr start -noprompt
-ExecRestart=<%= $solr_bin %>/solr restart -noprompt
-ExecStop=<%= $solr_bin %>/solr stop -noprompt
-ExecStatus=<%= $solr_bin %>/solr status -noprompt
+ExecStart=<%= $solr_bin %>/solr start <%= $solr_start_args.join(' ') %> -noprompt
+ExecStop=<%= $solr_bin %>/solr stop <%= $solr_stop_args.join(' ') %> -noprompt
 ExecReload=/bin/kill -s HUP $MAINPID
 User=solr
 PrivateTmp=true

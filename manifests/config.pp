@@ -23,6 +23,12 @@ class solr::config {
     group  => $solr::solr_user,
   }
 
+  file { $::solr::solr_home:
+    ensure => directory,
+    owner  => $solr::solr_user,
+    group  => $solr::solr_user,
+  }
+
   # After solr v 7.4.0 SOLR now uses log4j2.xml
   if versioncmp($solr::version, '7.4.0') >= 0 {
     # setup log4j2 configuration file.
@@ -86,10 +92,14 @@ class solr::config {
     include '::systemd'
     ::systemd::unit_file { 'solr.service':
       content => epp('solr/solr.service.epp',{
-        solr_pid_dir => $solr::solr_pid_dir,
-        solr_port    => $solr::solr_port,
-        solr_bin     => $solr::solr_bin,
-        solr_env     => $solr::solr_env,
+        solr_pid_dir     => $solr::solr_pid_dir,
+        solr_port        => $solr::solr_port,
+        solr_bin         => $solr::solr_bin,
+        solr_env         => $solr::solr_env,
+        solr_start_args  => $solr::solr_start_args,
+        solr_stop_args   => $solr::solr_stop_args,
+        solr_status_args => $solr::solr_status_args,
+
       }),
       require => File[$::solr::solr_env],
     }
@@ -103,9 +113,13 @@ class solr::config {
       ensure  => file,
       mode    => '0755',
       content => epp('solr/solr.sh.epp',{
-        solr_bin  => $solr::solr_bin,
-        solr_user => $solr::solr_user,
-        solr_env  => $solr::solr_env,
+        solr_bin         => $solr::solr_bin,
+        solr_user        => $solr::solr_user,
+        solr_env         => $solr::solr_env,
+        solr_start_args  => $solr::solr_start_args,
+        solr_stop_args   => $solr::solr_stop_args,
+        solr_status_args => $solr::solr_status_args,
+
       }),
       require => File[$::solr::solr_env],
     }

@@ -43,6 +43,10 @@
 #   Sets if this module should manage the install directory.
 #   True if this module should manage and false otherwise.
 #
+# @param [Boolean] manage_java
+#   Sets if this module should manage the install of Java.
+#   True if this module should manage and false otherwise.
+#
 # @param [String] solr_home
 #   The home directory for solr.
 #
@@ -62,12 +66,18 @@
 #   Bash style environment variables passed at the end of the solr
 #   server environment.
 #
+# @param [Optional[String]] solr_url_scheme
+#   Set the URL scheme to use (e.g. https)
+#
 # @param [Hash] cores
 #   An array of hashes that define a core which will be created with the
 #   create_resources function.
 #   See type solr::core for details.
 #
 # @param [Array[String]] required_packages
+#   Specified in params and is platform dependent.
+#
+# @param [Array[String]] java_packages
 #   Specified in params and is platform dependent.
 #
 # @param [Optional[Array]] zk_hosts
@@ -141,9 +151,9 @@
 # GPL-3.0+
 #
 class solr (
-  String           $version                          = '6.2.0',
-  String           $url                              =
-  'http://archive.apache.org/dist/lucene/solr/',
+  String            $version                          = '6.2.0',
+  String            $url                              =
+  'https://dlcdn.apache.org/solr/solr/',
   Boolean          $manage_user                      = true,
   String           $solr_user                        = 'solr',
   String           $solr_host                        = '127.0.0.1',
@@ -152,28 +162,35 @@ class solr (
   String           $solr_downloads                   = '/opt/solr_downloads',
   String           $install_dir                      = '/opt',
   Boolean          $install_dir_mg                   = false,
+  Boolean          $manage_java                      = true,
   String           $var_dir                          = '/var/solr',
   String           $solr_logs                        = '/var/log/solr',
   String           $solr_home                        = '/opt/solr/server/solr',
   String           $java_home                        = $solr::params::java_home,
   Optional[Array]  $solr_environment                 = undef,
+  Optional[String] $solr_url_scheme                  = undef,
   Hash             $cores                            = {},
   Array[String]    $required_packages                =
   $solr::params::required_packages,
-  Optional[Array]  $zk_hosts                         = undef,
-  String           $log4j_maxfilesize                = '4MB',
-  String           $log4j_maxbackupindex             = '9',
+  Array[String]    $java_packages                =
+  $solr::params::java_packages,
+  Optional[Array]   $zk_hosts                         = undef,
+  String            $log4j_maxfilesize                = '4MB',
+  String            $log4j_maxbackupindex             = '9',
   Variant[
     Enum['ALL', 'DEBUG', 'ERROR', 'FATAL', 'INFO', 'OFF', 'TRACE',
       'TRACE_INT', 'WARN'],
-    String]        $log4j_rootlogger_loglevel        = 'INFO',
-  Optional[String] $schema_name                      = undef,
+    String]         $log4j_rootlogger_loglevel       = 'INFO',
+  Optional[Array]   $solr_start_args                 = [],
+  Optional[Array]   $solr_status_args                = [],
+  Optional[Array]   $solr_stop_args                  = [],
+  Optional[String]  $schema_name                     = undef,
   Optional[String]  $ssl_key_store                   = undef,
   Optional[String]  $ssl_key_store_password          = undef,
   Optional[String]  $ssl_key_store_type              = 'JKS',
   Optional[String]  $ssl_trust_store                 = undef,
   Optional[String]  $ssl_trust_store_password        = undef,
-  Optional[String]  $ssl_trust_store_type             = 'JKS',
+  Optional[String]  $ssl_trust_store_type            = 'JKS',
   Optional[Boolean] $ssl_need_client_auth            = undef,
   Optional[Boolean] $ssl_want_client_auth            = undef,
   Optional[String]  $ssl_client_key_store            = undef,
@@ -225,8 +242,8 @@ class solr (
   Class['solr::config'] ~> Class['solr::service']
 
 
-  if is_hash($cores) {
-    create_resources(::solr::core, $cores)
+  if $cores =~ Hash {
+    ensure_resources(::solr::core, $cores)
   }
 
 }
