@@ -20,7 +20,7 @@ class solr::install {
     home       => $solr::var_dir,
     system     => true,
     managehome => true,
-    groups     => $solr::solr_user,
+    gid        => $solr::solr_user,
     shell      => '/bin/bash',
     require    => Package[$solr::required_packages],
   }
