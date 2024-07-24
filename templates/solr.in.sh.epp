@@ -151,14 +151,17 @@ SOLR_SSL_WANT_CLIENT_AUTH=<%= $ssl_want_client_auth %>
 <% if $ssl_client_key_store { -%>
 SOLR_SSL_CLIENT_KEY_STORE=<%= $ssl_client_key_store %>
 SOLR_SSL_CLIENT_KEY_STORE_PASSWORD=<%= $ssl_client_key_store_password %>
+SOLR_SSL_CLIENT_KEY_STORE_TYPE=jks
 <% } -%>
 
 <% if $ssl_client_trust_store { -%>
 SOLR_SSL_CLIENT_TRUST_STORE=<%= $ssl_client_trust_store %>
 SOLR_SSL_CLIENT_TRUST_STORE_PASSWORD=<%= $ssl_client_trust_store_password %>
+SOLR_SSL_TRUST_STORE_TYPE=jks
 <% } elsif $ssl_client_key_store { -%>
 SOLR_SSL_CLIENT_TRUST_STORE=<%= $ssl_client_key_store %>
 SOLR_SSL_CLIENT_TRUST_STORE_PASSWORD=<%= $ssl_client_key_store_password %>
+SOLR_SSL_TRUST_STORE_TYPE=jks
 <% } -%>
 
 # Settings for authentication
