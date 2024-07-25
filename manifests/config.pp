@@ -25,13 +25,19 @@ class solr::config {
 
   # After solr v 7.4.0 SOLR now uses log4j2.xml
   if versioncmp($solr::version, '7.4.0') >= 0 {
+    # Determine the template file based on log4j_template value
+    $log4j_template_file = $log4j_template ? {
+      'DEFAULT' => 'solr/log4j2.xml.epp',
+      'CUSTOM1' => 'solr/log4j2_custom1.xml.epp',
+      default   => 'solr/log4j2.xml.epp', # Fallback to default if the value is unexpected
+    }
     # setup log4j2 configuration file.
     $logger_config_file = 'log4j2.xml'
     file { "${::solr::var_dir}/log4j2.xml":
       ensure  => file,
       owner   => 'solr',
       group   => 'solr',
-      content => epp('solr/log4j2.xml.epp',{
+      content => epp($log4j_template_file,{
         log4j_rootlogger_loglevel => $solr::log4j_rootlogger_loglevel,
         log4j_maxfilesize         => $solr::log4j_maxfilesize,
         log4j_maxbackupindex      => $solr::log4j_maxbackupindex,
