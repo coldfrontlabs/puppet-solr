@@ -188,7 +188,7 @@ class solr (
       'TRACE_INT', 'WARN'],
     String]         $log4j_rootlogger_loglevel       = 'INFO',
   String            $log4j_config_path               = 'solr/log4j2.xml.epp',
-  Hash              $log4j_config_options            = {}
+  Hash              $log4j_config_options            = {},
   Optional[Array]   $solr_start_args                 = [],
   Optional[Array]   $solr_status_args                = [],
   Optional[Array]   $solr_stop_args                  = [],
