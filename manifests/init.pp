@@ -93,8 +93,11 @@
 # @param log4j_rootlogger_loglevel
 #   The loglevel to set for log4j.
 #
-# @param [String] log4j2_custom_config_path
-#   Provide path of custom log4j2.xml config file to use.
+# @param [String] log4j_config_template
+#   Provide path of the log4j2.xml config file to use.
+#
+# @param [Hash] log4j_config_options
+#   Hash of additional options for your log4j template.
 #
 # @param [Optional[String]] schema_name
 #   The Solr cores' schema name. This should be set to `schema.xml` if using
@@ -184,7 +187,8 @@ class solr (
     Enum['ALL', 'DEBUG', 'ERROR', 'FATAL', 'INFO', 'OFF', 'TRACE',
       'TRACE_INT', 'WARN'],
     String]         $log4j_rootlogger_loglevel       = 'INFO',
-  Optional[String]  $log4j2_custom_config_path       = undef,
+  String            $log4j_config_path               = 'solr/log4j2.xml.epp',
+  Hash              $log4j_config_options            = {}
   Optional[Array]   $solr_start_args                 = [],
   Optional[Array]   $solr_status_args                = [],
   Optional[Array]   $solr_stop_args                  = [],
