@@ -10,6 +10,7 @@
   String            $solr_port,
   String            $logger_config_file,
   Optional[Array]   $solr_environment                = undef,
+  Optional[String]  $solr_url_scheme                 = undef,
   Optional[String]  $ssl_key_store                   = undef,
   Optional[String]  $ssl_key_store_password          = undef,
   Optional[String]  $ssl_trust_store                 = undef,
@@ -60,15 +61,8 @@ GC_TUNE="-XX:NewRatio=3 \
 -XX:SurvivorRatio=4 \
 -XX:TargetSurvivorRatio=90 \
 -XX:MaxTenuringThreshold=8 \
--XX:+UseConcMarkSweepGC \
--XX:+UseParNewGC \
 -XX:ConcGCThreads=4 -XX:ParallelGCThreads=4 \
--XX:+CMSScavengeBeforeRemark \
 -XX:PretenureSizeThreshold=64m \
--XX:+UseCMSInitiatingOccupancyOnly \
--XX:CMSInitiatingOccupancyFraction=50 \
--XX:CMSMaxAbortablePrecleanTime=6000 \
--XX:+CMSParallelRemarkEnabled \
 -XX:+ParallelRefProcEnabled"
 
 # Set the ZooKeeper connection string if using an external ZooKeeper ensemble
@@ -170,9 +164,17 @@ SOLR_SSL_CLIENT_TRUST_STORE_PASSWORD=<%= $ssl_client_key_store_password %>
 SOLR_SSL_TRUST_STORE_TYPE=jks
 <% } -%>
 
+SOLR_SSL_CLIENT_KEY_STORE_TYPE=jks
+SOLR_SSL_CLIENT_TRUST_STORE_TYPE=jks
+
 # Settings for authentication
 #SOLR_AUTHENTICATION_CLIENT_CONFIGURER=
 #SOLR_AUTHENTICATION_OPTS=
+
+# Settings for cloud mode with encryption
+<% if $solr_url_scheme { -%>
+SOLR_URL_SCHEME=<%= $solr_url_scheme %>
+<% } -%>
 
 # Note, in Puppet 6, can use built-in size function
 <% if $solr_environment and size($solr_environment) != 0 { -%>
