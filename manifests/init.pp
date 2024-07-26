@@ -167,9 +167,7 @@ class solr (
     Enum['ALL', 'DEBUG', 'ERROR', 'FATAL', 'INFO', 'OFF', 'TRACE',
       'TRACE_INT', 'WARN'],
     String]        $log4j_rootlogger_loglevel        = 'INFO',
-  Variant[
-    Enum['DEFAULT', 'CUSTOM1'],
-    String]        $log4j_template                   = 'DEFAULT',
+  Optional[String] $log4j_custom_config_path         = undef,
   Optional[String] $schema_name                      = undef,
   Optional[String]  $ssl_key_store                   = undef,
   Optional[String]  $ssl_key_store_password          = undef,
