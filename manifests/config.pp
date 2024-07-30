@@ -37,10 +37,11 @@ class solr::config {
       ensure  => file,
       owner   => 'solr',
       group   => 'solr',
-      content => epp('solr/log4j2.xml.epp',{
+      content => epp($solr::log4j_config_path, {
         log4j_rootlogger_loglevel => $solr::log4j_rootlogger_loglevel,
         log4j_maxfilesize         => $solr::log4j_maxfilesize,
         log4j_maxbackupindex      => $solr::log4j_maxbackupindex,
+        log4j_config_options      => $solr::log4j_config_options
       }),
     }
   } else {
