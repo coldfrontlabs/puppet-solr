@@ -2,6 +2,7 @@
   String $log4j_rootlogger_loglevel,
   String $log4j_maxfilesize,
   String $log4j_maxbackupindex,
+  Hash   $log4j_config_options,
 |-%>
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
