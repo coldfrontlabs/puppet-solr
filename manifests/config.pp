@@ -65,7 +65,7 @@ class solr::config {
       java_home                       => $solr::java_home,
       solr_heap                       => $solr::solr_heap,
       zk_hosts                        => $solr::zk_hosts,
-      solr_pid_dir                    => $solr::solr_pid_dir,
+      solr_pid_dir                    => $solr::pid_dir,
       solr_home                       => $solr::solr_home,
       var_dir                         => $solr::var_dir,
       solr_logs                       => $solr::solr_logs,
@@ -92,7 +92,7 @@ class solr::config {
     include '::systemd'
     ::systemd::unit_file { 'solr.service':
       content => epp('solr/solr.service.epp',{
-        solr_pid_dir     => $solr::solr_pid_dir,
+        solr_pid_dir     => $solr::pid_dir,
         solr_port        => $solr::solr_port,
         solr_bin         => $solr::solr_bin,
         solr_env         => $solr::solr_env,

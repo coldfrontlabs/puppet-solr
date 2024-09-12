@@ -20,6 +20,7 @@ class solr::install {
     home       => $solr::var_dir,
     system     => true,
     managehome => true,
+    gid        => $solr::solr_user,
     shell      => '/bin/bash',
     require    => Package[$solr::required_packages],
   }
@@ -38,7 +39,7 @@ class solr::install {
 
   # download solr
   archive{$tarball:
-    source  => "${solr::url}/${solr::version}/solr-${solr::version}.tgz",
+    source  => "${solr::url}/${solr::version}/solr-${solr::version}.tgz?action=download",
     require => File[$solr::solr_downloads],
   }
 
@@ -54,7 +55,7 @@ class solr::install {
   exec {'install_solr_service.sh':
     command     => "${solr::solr_downloads}/install_solr_service.sh\
   \"${tarball}\" -f -i \"${solr::install_dir}\" -d \"${solr::var_dir}\"\
- -u ${solr::solr_user} -p ${solr::solr_port}",
+ -u ${solr::solr_user} -p ${solr::solr_port} -n",
     refreshonly => true,
     subscribe   => Exec['extract install script'],
     require     =>  User[$solr::solr_user]

@@ -53,6 +53,9 @@
 # @param [String] var_dir
 #   The var directory for solr.
 #
+# @param [String] pid_dir
+#   The directory for the pid file to reside. Defaults to /var/run.
+#
 # @param [String] solr_logs
 #   The directory for the solr logs.
 #
@@ -153,7 +156,7 @@
 class solr (
   String            $version                          = '6.2.0',
   String            $url                              =
-  'http://archive.apache.org/dist/lucene/solr/',
+  'https://www.apache.org/dyn/closer.lua/solr/solr',
   Boolean          $manage_user                      = true,
   String           $solr_user                        = 'solr',
   String           $solr_host                        = '127.0.0.1',
@@ -164,6 +167,7 @@ class solr (
   Boolean          $install_dir_mg                   = false,
   Boolean          $manage_java                      = true,
   String           $var_dir                          = '/var/solr',
+  String           $pid_dir                          = '/var/run',
   String           $solr_logs                        = '/var/log/solr',
   String           $solr_home                        = '/opt/solr/server/solr',
   String           $java_home                        = $solr::params::java_home,
@@ -203,8 +207,6 @@ class solr (
   $solr_env       = $solr::params::solr_env
   # The directory that contains cores.
   $solr_core_home = $solr_home
-  $solr_pid_dir   = $var_dir
-  #$solr_pid_dir   = '/var/run'
   $solr_bin       = "${install_dir}/solr/bin"
   $solr_server    = "${install_dir}/solr/server"
   # The directory to install shared libraries for use by solr.
@@ -242,8 +244,8 @@ class solr (
   Class['solr::config'] ~> Class['solr::service']
 
 
-  if is_hash($cores) {
-    create_resources(::solr::core, $cores)
+  if $cores =~ Hash {
+    ensure_resources(::solr::core, $cores)
   }
 
 }
