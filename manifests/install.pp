@@ -9,6 +9,11 @@ class solr::install {
   # install requirements
   ensure_packages($solr::required_packages)
 
+  # Install java if desired.
+  if ($solr::manage_java) {
+    ensure_packages($solr::java_packages)
+  }
+
   ## create a solr user
   user {$solr::solr_user:
     ensure     => present,
